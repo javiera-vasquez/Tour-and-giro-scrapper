@@ -1,41 +1,23 @@
 export class MainController {
-  constructor($log, $timeout, $http, webDevTec, toastr) {
+  constructor($log, $timeout, $http, scrapperService) {
     'ngInject';
 
-    this.awesomeThings = [];
-    this.classAnimation = '';
-    this.creationDate = 1461596771452;
-    this.toastr = toastr;
-
-    this.activate($timeout, webDevTec, $http, $log);
+    this.activate($timeout, $http, $log, scrapperService);
 
   }
 
-  get($http, $log) {
-    $log.debug($http)
-    $http.get('http://www.procyclingstats.com/mob/race.php?t=r&id=156770').then((res) => {
-      $log.debug(res)
-    });
+  activate($timeout, $http, $log, scrapperService) {
+    // this.get($http, $log, scrapperService);
   }
 
-  activate($timeout, webDevTec, $http, $log) {
-    this.get($http, $log);
-    this.getWebDevTec(webDevTec);
-    $timeout(() => {
-      this.classAnimation = 'rubberBand';
-    }, 4000);
+  get($http, $log, scrapperService) {
+    $http.get('http://www.procyclingstats.com/mob/race.php?t=r&id=156770')
+      .then((res) => {
+        //$log.debug(scrapperService);
+        scrapperService.setResults(res, scrapperService.params);
+      }, (error) => {
+        $log.debug('error', error);
+      });
   }
 
-  getWebDevTec(webDevTec) {
-    this.awesomeThings = webDevTec.getTec();
-
-    angular.forEach(this.awesomeThings, (awesomeThing) => {
-      awesomeThing.rank = Math.random();
-    });
-  }
-
-  showToastr() {
-    this.toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
-    this.classAnimation = '';
-  }
 }
