@@ -7,7 +7,7 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
       templateUrl: 'app/main/main.html',
       controller: 'MainController',
       controllerAs: 'main'
-    });
+    })
 
   $urlRouterProvider.otherwise('/');
 }

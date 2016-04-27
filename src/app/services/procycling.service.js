@@ -2,9 +2,29 @@ export function procyclingService($q, $log, $http) {
   'ngInject'
 
   const service = {
-    getStage: getStage,
-    makeUrl: makeUrl
+    makeUrl: makeUrl,
+    getStage: getStage
+  };
+
+  return service;
+
+  function makeUrl(id) {
+    return 'http://www.procyclingstats.com/mob/race.php?id=' + id;
   }
 
-  return service
+  function getStage(id) {
+    let path = makeUrl(id);
+    let deferred = $q.defer();
+
+    $http.get(path).then(respond => {
+      //$log.debug(respond.data);
+      deferred.resolve(respond.data);
+    }, error => {
+      deferred.resolve(error);
+    });
+
+    return deferred.promise;
+
+  }
+
 }

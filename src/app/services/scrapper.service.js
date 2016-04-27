@@ -11,8 +11,8 @@ export function scrapperService($log) {
     parseNames: parseNames,
     parseTimes: parseTimes,
     setResults: setResults,
-    getResult: getResult,
-  }
+    getResult: getResult
+  };
 
   return service;
 
@@ -20,7 +20,10 @@ export function scrapperService($log) {
     let list = {};
     let element = $(html.body.children).find(selector);
 
+    //$log.debug(element);
+
     element.each((i, el) => {
+      //$log.debug('element', el);
       list[$(el).text()] = $(el).attr('href').split('id=')[1]
     });
 
@@ -41,24 +44,25 @@ export function scrapperService($log) {
         team: (type !== filter) ? childrens.children()[2].outerText : childrens[1].outerText,
         time: childrens[2].outerText
       }
-      // $log.deug(obj);
+      //$log.debug(obj);
       position.push(obj);
     });
 
     return position;
   }
 
-  function setResults(response, params) {
+  function setResults(response) {
     let tmpObj = {};
     let tmpHTML = document.implementation.createHTMLDocument();
-    // Link respond to fake html
-    tmpHTML.body.innerHTML = response.data;
-    // Init obj map
 
-    this.parseNames(tmpHTML, params.selector_names);
+    // Link respond to fake html
+    tmpHTML.body.innerHTML = response;
+
+    // Init obj map
+    this.parseNames(tmpHTML, this.params.selector_names);
     // loop n times for each section
     angular.forEach(this.sections, (value, key) => {
-      tmpObj[key] = this.parseTimes(tmpHTML, value, key, params.filter);
+      tmpObj[key] = this.parseTimes(tmpHTML, value, key, this.params.filter);
     })
 
     // $log.debug(tmpObj);

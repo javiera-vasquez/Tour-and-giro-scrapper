@@ -1,0 +1,78 @@
+<main class="mdl-layout__content">
+  <div class="mdl-layout__tab-panel is-active" id="overview">
+
+    <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" ng-hide="main.closeTips">
+      <div class="mdl-card mdl-cell mdl-cell--12-col">
+        <div class="mdl-card__supporting-text">
+          <h5 class="who">Como funciona</h5> 1.- Instalar esta extención de chrome <a href="https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en">Chrome CORS.</a><br
+          /> 2.- Reiniciar Chrome, hacer click en el icono de CORS y seleccionar "Enable cross origin". EL icono se deberia
+          poner verde<br /> 3.- Seleccionar la carrera y la etapa, si la etapa todavia no se corre el sitio no va a desplegar
+          la tabla.<br /> 4.- Al hacer click en los "3 puntos" se puede seleccionar bajar el archivo SCV.<br />
+        </div>
+      </div>
+      <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab" ng-click="main.closeTips = true">
+        <i class="material-icons">close</i>
+      </button>
+    </section>
+
+    <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+      <div class="selector tour">
+        <!-- Left aligned menu below button -->
+        <button id="setRace" class="mdl-button mdl-js-button mdl-button--primary">
+          {{ main.actualRace }}
+        </button>
+        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="setRace">
+          <li class="mdl-menu__item"
+          ng-repeat="race in main.tours"
+          ng-click="main.setRace(race)">
+          {{ race.name }}
+        </li>
+        </ul>
+      </div>
+
+      <div class="selector etapa">
+        <!-- Left aligned menu below button -->
+        <button id="setStage" class="mdl-button mdl-js-button mdl-button--primary">
+           {{ main.actualStage }}
+        </button>
+        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="setStage">
+          <li class="mdl-menu__item"
+            ng-repeat="stage in main.race"
+            ng-click="main.setStage(stage.request_id, stage.name)"
+            >
+            {{ stage.stage }} - {{ stage.name }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="selector download">
+        <button class="mdl-button mdl-js-button mdl-button--primary pull-right" id="download">
+          Descargar
+          <i class="material-icons">file_download</i>
+        </button>
+        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="download">
+          <li class="mdl-menu__item">Lorem</li>
+          <li class="mdl-menu__item" disabled>Ipsum</li>
+          <li class="mdl-menu__item">Dolor</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+      <div class="mdl-card mdl-cell mdl-cell--12-col">
+        <div class="mdl-card__supporting-text">
+
+          {{ main.raceStat }}
+
+          <h4>Technology</h4> Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet
+          do dolor eu fugiat consectetur elit cillum esse. Pariatur occaecat nisi laboris tempor laboris eiusmod qui id Lorem
+          esse commodo in. Exercitation aute dolore deserunt culpa consequat elit labore incididunt elit anim.
+        </div>
+        <div class="mdl-card__actions">
+          <a href="#" class="mdl-button">Read our features</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>

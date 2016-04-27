@@ -1,14 +1,30 @@
-export function tourService($http, $q) {
+export function tourService($http, $q, $log) {
   'ngInject'
 
-  let service = {
-
+  const service = {
+    getStages: getStages
   };
 
-  return service
+  return service;
+
+  function getStages() {
+    let url = './assets/stages.json'
+    let deferred = $q.defer();
+
+    $http.get(url)
+      .then(respond => {
+        //$log.debug(respond.data);
+        deferred.resolve(respond.data);
+      }, error => {
+        deferred.resolve(error);
+    });
+
+    return deferred.promise;
+  }
 
 }
 
+// Scrapper of stages
 // var array = [];
 
 // $('.basiclist li').each(function (i, el) {
