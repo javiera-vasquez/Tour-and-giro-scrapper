@@ -46,10 +46,33 @@
 }
 
 .mdl-layout__content {
-  height: 2000px;
+  width: 100%;
 }
 
 h5.who {
   margin-top: 0;
 }
 
+.button-selector {
+  background-color: #fff;
+  .selector {
+    padding: 20px;
+  }
+  .download {
+    position: absolute;
+    right: 0;
+  }
+}
+
+.table-times {
+  min-height: 750px;
+}
+
+.mdl-data-table {
+  width: 100%;
+}
+
+.spinnerbox {
+  text-align: center;
+  padding-top: 250px;
+}

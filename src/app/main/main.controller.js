@@ -6,12 +6,14 @@ export class MainController {
 
     mv.tours = {};
     mv.race = {};
-    mv.raceStat = {};
+    mv.ranking = {};
     mv.setRace = setRace;
     mv.setStage = setStage;
     mv.actualRace = 'Seleccionar Carrera';
     mv.actualStage = 'Seleccionar Etapa';
     mv.closeTips = false;
+    mv.resolveStage = false;
+    mv.spinner = false;
 
 
     activate();
@@ -40,14 +42,22 @@ export class MainController {
       // $log.debug(race);
       mv.actualRace = race.name;
       mv.race = race.stages;
+      mv.actualStage = 'Seleccionar Etapa';
+      return;
     }
 
     function setStage(id, name) {
       $log.debug(id);
+      mv.actualStage = name;
+      mv.spinner = !mv.spinner;
       getStage(id).then((respond) => {
-        mv.actualStage = name;
-        mv.raceStat = respond;
+        mv.ranking = respond;
+        $log.debug(mv.ranking);
+      }).finally(() => {
+        mv.spinner = !mv.spinner;
+        mv.resolveStage = !mv.resolveStage;
       });
+      return;
     }
 
 
