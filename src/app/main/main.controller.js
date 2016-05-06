@@ -1,12 +1,11 @@
 export class MainController {
-  constructor($log, scrapperService, tourService, procyclingService) {
+  constructor($log, $element, $scope, tourService, procyclingService) {
     'ngInject';
 
     let mv = this;
 
     mv.tours = {};
     mv.race = {};
-    mv.ranking = {};
     mv.setRace = setRace;
     mv.setStage = setStage;
     mv.actualRace = 'Seleccionar Carrera';
@@ -14,7 +13,6 @@ export class MainController {
     mv.closeTips = false;
     mv.resolveStage = false;
     mv.spinner = false;
-
 
     activate();
 
@@ -30,12 +28,13 @@ export class MainController {
     }
 
     function getStage(id) {
-      return procyclingService.getStage(id).then(respond => {
-        //$log.debug(respond);
-        return scrapperService.setResults(respond);
-      }, error => {
-        $log.debug(error);
-      });
+      return procyclingService.getStage(id)
+        .then(respond => {
+          //$log.debug(respond);
+          return respond;
+        }, error => {
+          $log.debug(error);
+        });
     }
 
     function setRace(race) {
@@ -43,23 +42,32 @@ export class MainController {
       mv.actualRace = race.name;
       mv.race = race.stages;
       mv.actualStage = 'Seleccionar Etapa';
-      return;
     }
 
     function setStage(id, name) {
-      $log.debug(id);
+      //$log.debug('undefined', mv.ranking)
+
       mv.actualStage = name;
       mv.spinner = !mv.spinner;
+
+      if (mv.ranking !== undefined)
+        mv.resolveStage = !mv.resolveStage;
+
       getStage(id).then((respond) => {
         mv.ranking = respond;
-        $log.debug(mv.ranking);
+        $log.debug(mv.ranking.hasOwnProperty('GC'));
       }).finally(() => {
-        mv.spinner = !mv.spinner;
-        mv.resolveStage = !mv.resolveStage;
+        if (!mv.ranking.hasOwnProperty('GC')) {
+          $log.debug('asdf')
+          mv.resolveStage = false;
+          mv.spinner = false;
+          mv.ranking = undefined;
+        } else {
+          mv.spinner = !mv.spinner;
+          mv.resolveStage = !mv.resolveStage;
+        }
       });
-      return;
     }
-
 
 
   }

@@ -9,7 +9,7 @@ export function procyclingService($q, $log, $http) {
   return service;
 
   function makeUrl(id) {
-    return 'http://www.procyclingstats.com/mob/race.php?id=' + id;
+    return 'http://localhost:4000/' + id;
   }
 
   function getStage(id) {

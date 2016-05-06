@@ -9,6 +9,12 @@ let scrapper = require('./scrapper');
 let app = express();
 let task = scrapper();
 
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
+
 app.get('/:id', function (req, res) {
   let url = makeUrl(req.params.id);
   console.log('request => ', url);
@@ -23,8 +29,8 @@ app.get('/:id', function (req, res) {
 
 });
 
-app.listen(3001, function () {
-  console.log('scrapping request in port 3001!');
+app.listen(4000, function () {
+  console.log('scrapping request in port 4000!');
 });
 
 function makeUrl(id) {

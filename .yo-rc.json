@@ -25,7 +25,11 @@
         "module": "ui.router"
       },
       "ui": {
-        "key": "material-design-lite",
+        "key": "bootstrap",
+        "module": null
+      },
+      "bootstrapComponents": {
+        "key": "noBootstrapComponents",
         "module": null
       },
       "cssPreprocessor": {
@@ -40,12 +44,6 @@
       "htmlPreprocessor": {
         "key": "noHtmlPrepro",
         "extension": "html"
-      },
-      "bootstrapComponents": {
-        "name": null,
-        "version": null,
-        "key": null,
-        "module": null
       },
       "foundationComponents": {
         "name": null,

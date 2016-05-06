@@ -1,90 +1,115 @@
-<main class="mdl-layout__content">
-  <div class="mdl-layout__tab-panel is-active" id="overview">
+<div class="row">
+  <div class="col-lg-12">
 
-    <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" ng-hide="main.closeTips">
-      <div class="mdl-card mdl-cell mdl-cell--12-col">
-        <div class="mdl-card__supporting-text">
-          <h5 class="who">Como funciona</h5> 1.- Instalar esta extención de chrome <a href="https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en">Chrome CORS.</a><br
-          /> 2.- Reiniciar Chrome, hacer click en el icono de CORS y seleccionar "Enable cross origin". EL icono se deberia
-          poner verde<br /> 3.- Seleccionar la carrera y la etapa. (Si la etapa todavia no se corre el sitio no va a desplegar
-          la tabla de resultados)<br /> 4.- Al hacer click en los "3 puntos" se puede seleccionar bajar el archivo CSV.<br />
+    <section id="stage-selector">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-lg-4 col-md-4">
+              <div class="dropdown">
+                <button class="btn  btn-info dropdown-toggle" type="button" id="setrace" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  {{ main.actualRace }}
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="setrace">
+                  <li class="" ng-repeat="race in main.tours" ng-click="main.setRace(race)">
+                    <a href="#">{{ race.name }}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-lg-8 col-md-8">
+              <div class="dropdown">
+                <button class="btn  btn-info dropdown-toggle" type="button" id="setstage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  {{ main.actualStage }}
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="setstage">
+                  <li class="" ng-repeat="stage in main.race" ng-click="main.setStage(stage.request_id, stage.name)">
+                    <a href="#">{{ stage.stage }} - {{ stage.name }}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
         </div>
-      </div>
-      <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab" ng-click="main.closeTips = true">
-        <i class="material-icons">close</i>
-      </button>
-    </section>
-
-    <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp button-selector">
-      <div class="selector tour">
-        <!-- Left aligned menu below button -->
-        <button id="setRace" class="mdl-button mdl-js-button mdl-button--primary">
-          {{ main.actualRace }}
-          <i class="material-icons">arrow_drop_down</i>
-        </button>
-        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="setRace">
-          <li class="mdl-menu__item" ng-repeat="race in main.tours" ng-click="main.setRace(race)">
-            <a>{{ race.name }}</a>
-          </li>
-        </ul>
-
-      </div>
-
-      <div class="selector etapa">
-        <!-- Left aligned menu below button -->
-        <button id="setStage" class="mdl-button mdl-js-button mdl-button--primary">
-           {{ main.actualStage }}
-           <i class="material-icons">arrow_drop_down</i>
-        </button>
-        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="setStage">
-          <li class="mdl-menu__item" ng-repeat="stage in main.race" ng-click="main.setStage(stage.request_id, stage.name)">
-            <a>{{ stage.stage }} - {{ stage.name }}</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="selector download" ng-hide="!main.resolveStage">
-        <button id="download" class="mdl-button mdl-js-button mdl-button--primary pull-right" >
-          Descargar excel
-          <i class="material-icons">file_download</i>
-        </button>
-        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="download">
-          <li class="mdl-menu__item"><a>Etapa</a></li>
-          <li class="mdl-menu__item"><a>General</a></li>
-          <li class="mdl-menu__item"><a>Montaña</a></li>
-          <li class="mdl-menu__item"><a>Puntos</a></li>
-          <li class="mdl-menu__item"><a>Equipos</a></li>
-          <li class="mdl-menu__item"><a>Juvenil</a></li>
-        </ul>
       </div>
     </section>
 
-    <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-      <div class="mdl-card mdl-cell mdl-cell--12-col table-times">
+    <section id="race-info">
+      <div class="panel panel-default">
+        <div class="panel-body">
 
-        <div class="mdl-card__supporting-text spinnerbox" ng-hide="!main.spinner">
-          <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
+          <div class="row" ng-hide="main.resolveStage">
+            <div class="col-lg-12">
+              <div ng-hide="!main.spinner">
+                <h4 class="result-false text-center">Cargando</h4>
+              </div>
+              <div ng-hide="main.spinner">
+                <h4 class="result-false text-center">No se encontraron resultados</h4>
+              </div>
+            </div>
+          </div>
+          <div class="row" ng-hide="!main.resolveStage">
+            <div class="col-lg-12">
+
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+                <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+                <li role="presentation" class="dropdown pull-right">
+                  <a href="#" class="dropdown-toggle" id="download" data-toggle="dropdown" aria-controls="download-content">
+                    Descargar
+                    <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="dropdown" id="download-content">
+                    <li class="mdl-menu__item" ng-csv="main.ranking.GC" filename="etapa.csv"><a>Etapa</a></li>
+                    <li class="mdl-menu__item" ng-csv="main.ranking.Stage" filename="general.csv"><a>General</a></li>
+                    <li class="mdl-menu__item" ng-csv="main.ranking.Mountains" filename="montaña.csv"><a>Montaña</a></li>
+                    <li class="mdl-menu__item" ng-csv="main.ranking.Points" filename="puntos.csv"><a>Puntos</a></li>
+                    <li class="mdl-menu__item" ng-csv="main.ranking.Teams" filename="quipos.csv"><a>Equipos</a></li>
+                    <li class="mdl-menu__item" ng-csv="main.ranking.Youth" filename="juvenil.csv"><a>Juvenil</a></li>
+                  </ul>
+                </li>
+              </ul>
+
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Puesto</th>
+                        <th class="mdl-data-table__cell--non-numeric">Nombre</th>
+                        <th class="mdl-data-table__cell--non-numeric">Equipo</th>
+                        <th>Tiempo</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="racer in main.ranking.GC">
+                        <td class="mdl-data-table__cell--non-numeric">{{ racer.position }}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{ racer.name }}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{ racer.team }}</td>
+                        <td>{{ racer.time }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profile">...</div>
+                <div role="tabpanel" class="tab-pane" id="messages">...</div>
+                <div role="tabpanel" class="tab-pane" id="settings">...</div>
+              </div>
+
+            </div>
+          </div>
+
         </div>
-
-        <table class="mdl-data-table mdl-js-data-table" ng-hide="!main.resolveStage">
-          <thead>
-            <tr>
-              <th class="mdl-data-table__cell--non-numeric">Puesto</th>
-              <th class="mdl-data-table__cell--non-numeric">Nombre</th>
-              <th class="mdl-data-table__cell--non-numeric">Equipo</th>
-              <th>Tiempo</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="racer in main.ranking.GC">
-              <td class="mdl-data-table__cell--non-numeric">{{ racer.position }}</td>
-              <td class="mdl-data-table__cell--non-numeric">{{ racer.name }}</td>
-              <td class="mdl-data-table__cell--non-numeric">{{ racer.team }}</td>
-              <td>{{ racer.time }}</td>
-            </tr>
-        </table>
       </div>
     </section>
 
   </div>
-</main>
+</div>
